@@ -5,22 +5,15 @@ import { QUERY_CHECKOUT } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
 import CartItem from '../CartItem';
 import Auth from '../../utils/auth';
-// import { useStoreContext } from '../../utils/GlobalState';
-// import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from '../../utils/actions';
+import { useStoreContext } from '../../utils/GlobalState';
+import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from '../../utils/actions';
 import './style.css';
-
-import { useSelector, useDispatch } from 'react-redux'
-import { ADD_MULTIPLE_TO_CART, TOGGLE_CART  } from '../../utils/slices/cartSlice'
-// import { ADD_MULTIPLE_TO_CART, TOGGLE_CART  } from '../../utils/slices/cartSlice'
-
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const Cart = () => {
-//   const [state, dispatch] = useStoreContext();
-  const  dispatch = useDispatch();
+  const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-  const state = useSelector((state) => state)
 
   useEffect(() => {
     if (data) {
@@ -33,7 +26,6 @@ const Cart = () => {
   useEffect(() => {
     async function getCart() {
       const cart = await idbPromise('cart', 'get');
-		console.log("line 35 cart index idbpromise",  [...cart])
       dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
     }
 
@@ -68,7 +60,7 @@ const Cart = () => {
     });
   }
 
-  if (!state.cart.cartOpen) {
+  if (!state.cartOpen) {
     return (
       <div className="cart-closed" onClick={toggleCart}>
         <span role="img" aria-label="trash">

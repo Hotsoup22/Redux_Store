@@ -17,7 +17,7 @@ export function idbPromise(storeName, method, object) {
     };
 
     request.onerror = function(e) {
-      console.log('There was an error: helper idbpromise');
+      console.log('There was an error');
     };
 
     request.onsuccess = function(e) {
