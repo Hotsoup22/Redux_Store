@@ -8,11 +8,16 @@ const db = require('./config/connection');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: authMiddleware
 });
+// // added this line : Error: You must `await server.start()`
+//   await server.start();
+
+
 
 server.applyMiddleware({ app });
 
